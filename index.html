@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!--
+  This <head> has static fallback values so link previews still look right
+  even for tools that don't run JavaScript (most chat-app link unfurlers).
+  app.js overwrites all of this from content.js on load, so the live page
+  always matches your SITE object — only the very first "unfurled preview"
+  moment relies on these static tags being reasonably in sync. If you want
+  perfect no-JS previews, you can hand-edit the values below too, but it's
+  optional. See README.md.
+-->
+<title>Jordan Ellis — UGC Creator Portfolio</title>
+<meta name="description" content="UGC creator portfolio: beauty, wellness, SaaS & tech content. English & Spanish. 48-hour turnaround." />
+<meta name="theme-color" content="#0d0d0f" />
+
+<meta property="og:type" content="profile" />
+<meta property="og:title" content="Jordan Ellis — UGC Creator Portfolio" />
+<meta property="og:description" content="UGC creator portfolio: beauty, wellness, SaaS & tech content. English & Spanish. 48-hour turnaround." />
+<meta property="og:url" content="https://example-ugc-portfolio.netlify.app" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Jordan Ellis — UGC Creator Portfolio" />
+<meta name="twitter:description" content="UGC creator portfolio: beauty, wellness, SaaS & tech content. English & Spanish. 48-hour turnaround." />
+
+<link rel="icon" href="data:," />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<main id="main">
+  <!-- Every section below is an empty mount point. app.js renders all
+       content into these from content.js on page load. -->
+  <section id="hero" class="section hero" aria-label="Profile summary"></section>
+
+  <section id="about-video" class="section" aria-labelledby="about-video-heading"></section>
+
+  <section id="service-level" class="section" aria-labelledby="service-level-heading"></section>
+
+  <section id="portfolio" class="section" aria-labelledby="portfolio-heading"></section>
+
+  <section id="languages" class="section" aria-labelledby="languages-heading"></section>
+
+  <section id="rates" class="section" aria-labelledby="rates-heading"></section>
+
+  <section id="brands" class="section" aria-labelledby="brands-heading"></section>
+
+  <section id="how-i-work" class="section" aria-labelledby="how-i-work-heading"></section>
+
+  <section id="contact" class="section" aria-labelledby="contact-heading"></section>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+
+<div id="json-ld-mount"></div>
+
+<script src="content.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
