@@ -419,8 +419,28 @@
     return frame;
   }
 
+  // A still image post: just the picture, no play button or video.
+  function buildImageFrame(item) {
+    const frame = ce("div", "media-frame");
+    frame.appendChild(ce("span", "media-badge", "Photo"));
+    const placeholder = createPlaceholderNode(item.title, item.brand || "");
+    frame.appendChild(placeholder);
+    const src = item.source.src;
+    testImage(src).then((ok) => {
+      if (!ok) return;
+      placeholder.hidden = true;
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = item.title;
+      img.className = "media-still";
+      frame.appendChild(img);
+    });
+    return frame;
+  }
+
   function createMediaFrame(item, opts) {
     if (item.source.type === "local") return buildLocalVideoFrame(item, opts);
+    if (item.source.type === "image") return buildImageFrame(item);
     return buildSocialFrame(item);
   }
 

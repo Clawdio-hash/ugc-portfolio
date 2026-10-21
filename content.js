@@ -162,6 +162,8 @@ const SITE = {
   //              OR a social embed (no video file needed):
   //                { type: "tiktok", url: "https://www.tiktok.com/@you/video/123", poster: "media/posters/x.jpg" }
   //                { type: "instagram", url: "https://www.instagram.com/reel/xyz/", poster: "media/posters/x.jpg" }
+  //              OR a still image (no video):
+  //                { type: "image", src: "media/posters/x.jpg" }
   //   downloadUrl  optional — adds a "Download" button (Drive/Dropbox link)
   //   brand        brand name shown on the card
   //   note         one short line: what you did (scripted? filmed? turnaround?)
@@ -199,19 +201,19 @@ const SITE = {
       note: "Talking-head sneaker review, shot and edited solo.",
     },
     {
-      id: "luudan-denim-haul",
-      title: "LU/UDAN oversized denim — styled reveal",
-      niches: ["fashion-styling"],
-      format: "talking-head",
+      id: "our-legacy-shorts-unboxing",
+      title: "Our Legacy shorts — unboxing",
+      niches: ["product-review"],
+      format: "unboxing",
       language: "english",
       source: {
-        type: "local",
-        src: "media/videos/denim-haul.mp4",
-        poster: "media/posters/denim-haul.jpg",
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7694346948681223454",
+        poster: "media/posters/our-legacy-shorts-unboxing.jpg",
       },
       downloadUrl: "",
-      brand: "LU/UDAN",
-      note: "Styled reveal referencing a celebrity performance look.",
+      brand: "Our Legacy",
+      note: "Unboxing of shorts spotted on SSENSE.",
     },
     {
       id: "her-skit",
@@ -274,19 +276,19 @@ const SITE = {
       note: "Three brands doing loud luxury without being obnoxious.",
     },
     {
-      id: "our-legacy-shorts-unboxing",
-      title: "Our Legacy shorts — unboxing",
-      niches: ["product-review"],
-      format: "unboxing",
+      id: "luudan-denim-haul",
+      title: "LU/UDAN oversized denim — styled reveal",
+      niches: ["fashion-styling"],
+      format: "photo",
       language: "english",
+      // Still image post (no video). Swap `src` for a different photo any time.
       source: {
-        type: "tiktok",
-        url: "https://www.tiktok.com/@emilsmusic1/video/7694346948681223454",
-        poster: "media/posters/our-legacy-shorts-unboxing.jpg",
+        type: "image",
+        src: "media/posters/denim-haul.jpg",
       },
       downloadUrl: "",
-      brand: "Our Legacy",
-      note: "Unboxing of shorts spotted on SSENSE.",
+      brand: "LU/UDAN",
+      note: "Styled look referencing a celebrity performance outfit.",
     },
     {
       id: "house-of-errors-unboxing",
