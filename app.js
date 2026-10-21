@@ -400,7 +400,8 @@
         img.style.width = "100%";
         img.style.height = "100%";
         img.style.objectFit = "cover";
-        frame.appendChild(img);
+        // Keep the poster *behind* the play button, or it swallows the tap.
+        frame.insertBefore(img, frame.querySelector(".media-play-btn"));
       });
     }
 

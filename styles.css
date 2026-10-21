@@ -420,6 +420,7 @@ input:focus-visible {
 }
 
 .media-play-btn {
+  z-index: 2; /* above posters/placeholders, below the platform badge (3) */
   position: absolute;
   inset: 0;
   width: 100%;
