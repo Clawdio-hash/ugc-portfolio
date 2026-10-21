@@ -37,7 +37,8 @@
       "Bash(git config *)",
       "Bash(git init *)",
       "Bash(git add *)",
-      "Bash(git commit -q -m 'Add UGC creator portfolio site *)"
+      "Bash(git commit -q -m 'Add UGC creator portfolio site *)",
+      "Bash(gh api *)"
     ]
   }
 }
