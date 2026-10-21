@@ -689,7 +689,16 @@ input:focus-visible {
 }
 
 .portfolio-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-top: 0.1rem;
+}
+
+.about-video__link {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.85rem;
 }
 
 .empty-state {
@@ -794,22 +803,31 @@ table.rates-table {
 .brand-strip {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1.25rem 1.75rem;
   align-items: center;
+  list-style: none;
 }
 
+/* Every logo gets the same-size box so wide wordmarks and square marks sit
+   evenly in the row. */
 .brand-strip__item {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 42px;
+  width: 124px;
+  height: 44px;
 }
 
+/* Logos are flattened to a single white mark so they read on the dark
+   background and look consistent, whatever colors the source file uses. */
 .brand-strip__item img {
+  max-width: 100%;
   max-height: 100%;
   width: auto;
-  filter: grayscale(1);
-  opacity: 0.65;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
   transition: opacity var(--transition-fast);
 }
 

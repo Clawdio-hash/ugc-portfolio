@@ -326,6 +326,10 @@
       blockquote = document.createElement("blockquote");
       blockquote.className = "tiktok-embed";
       blockquote.setAttribute("cite", item.source.url);
+      // TikTok's embed script reads the video ID from this attribute; without
+      // it the embed loads blank (embed/v2/null).
+      const idMatch = String(item.source.url).match(/\/(?:video|photo)\/(\d+)/);
+      if (idMatch) blockquote.setAttribute("data-video-id", idMatch[1]);
       blockquote.style.maxWidth = "100%";
       blockquote.style.minWidth = "100%";
       const a = document.createElement("a");
@@ -511,6 +515,12 @@
     );
     section.appendChild(wrap);
     section.appendChild(ce("p", "about-video__caption", SITE.aboutVideo.caption));
+    const aboutLink = createSocialLink(SITE.aboutVideo.source);
+    if (aboutLink) {
+      const row = ce("div", "about-video__link");
+      row.appendChild(aboutLink);
+      section.appendChild(row);
+    }
   }
 
   /* ------------------------------------------------------------------ */
@@ -703,8 +713,10 @@
     meta.appendChild(tags);
     card.appendChild(meta);
 
+    const actions = ce("div", "portfolio-card__actions");
+    const social = createSocialLink(item.source);
+    if (social) actions.appendChild(social);
     if (item.downloadUrl) {
-      const actions = ce("div", "portfolio-card__actions");
       const a = document.createElement("a");
       a.href = item.downloadUrl;
       a.target = "_blank";
@@ -712,10 +724,23 @@
       a.className = "btn btn--secondary btn--small";
       a.textContent = "Download";
       actions.appendChild(a);
-      card.appendChild(actions);
     }
+    if (actions.children.length) card.appendChild(actions);
 
     return card;
+  }
+
+  // "View on TikTok ↗" / "View on Instagram ↗" link, so every social post is
+  // one tap away from its original page (the embed itself only loads on tap).
+  function createSocialLink(source) {
+    if (!source || (source.type !== "tiktok" && source.type !== "instagram") || !source.url) return null;
+    const a = document.createElement("a");
+    a.href = source.url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.className = "btn btn--secondary btn--small";
+    a.textContent = "View on " + (source.type === "tiktok" ? "TikTok" : "Instagram") + " ↗";
+    return a;
   }
 
   /* ------------------------------------------------------------------ */
@@ -839,18 +864,35 @@
   /* Brands                                                               */
   /* ------------------------------------------------------------------ */
   function renderBrands() {
-    const section = document.getElementById("brands");
-    if (!SITE.brands || SITE.brands.length === 0) {
+    renderBrandStrip("brands", "Brands I’ve Worked With", "", SITE.brands);
+  }
+
+  function renderFavoriteBrands() {
+    renderBrandStrip(
+      "favorite-brands",
+      "Brands I Wear & Love",
+      "Personal favorites from my own closet and routine — not sponsored partnerships.",
+      SITE.favoriteBrands
+    );
+  }
+
+  // Shared logo strip. The section is removed entirely when there's nothing to
+  // show, and any logo that's missing falls back to a text badge.
+  function renderBrandStrip(sectionId, headingText, subtext, brands) {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    if (!brands || brands.length === 0) {
       section.remove();
       return;
     }
-    const heading = ce("h2", "section-heading", "Brands I’ve Worked With");
-    heading.id = "brands-heading";
+    const heading = ce("h2", "section-heading", headingText);
+    heading.id = sectionId + "-heading";
     section.appendChild(heading);
+    if (subtext) section.appendChild(ce("p", "section-subheading", subtext));
 
-    const strip = ce("div", "brand-strip");
-    SITE.brands.forEach((b) => {
-      const item = ce("div", "brand-strip__item");
+    const strip = ce("ul", "brand-strip");
+    brands.forEach((b) => {
+      const item = ce("li", "brand-strip__item");
       item.appendChild(ce("span", "brand-strip__fallback", b.name));
       strip.appendChild(item);
       testImage(b.logo).then((ok) => {
@@ -1046,6 +1088,7 @@
       renderLanguages();
       renderRates();
       renderBrands();
+      renderFavoriteBrands();
       renderHowIWork();
       renderContact();
       renderFooter();

@@ -135,11 +135,12 @@ const SITE = {
     bio:
       "I'm a creative director with a love for fashion and 90s aesthetics. " +
       "Based in Los Angeles, where health and wellness are always a priority.",
-    caption: "Direct-to-camera delivery, pacing, and editing style — unscripted.",
+    caption: "Ray-Ban x A$AP Rocky review — direct-to-camera delivery, pacing, and editing style.",
     source: {
-      type: "local", // "local" | "tiktok" | "instagram"
-      src: "media/videos/sneaker-review.mp4",
+      type: "tiktok", // "local" | "tiktok" | "instagram"
+      url: "https://www.tiktok.com/@emilsmusic1/video/7613838899189665054",
       // Poster is the Cafe Dulce outfit photo you sent, cropped to 9:16.
+      // The TikTok itself only loads when a visitor taps play.
       poster: "media/posters/about-me.jpg",
     },
   },
@@ -169,7 +170,7 @@ const SITE = {
     {
       id: "sample-sale-haul",
       title: "260 Sample Sale Haul",
-      niches: ["fashion", "streetwear"],
+      niches: ["fashion-styling"],
       format: "unboxing",
       language: "english",
       source: {
@@ -184,7 +185,7 @@ const SITE = {
     {
       id: "beaspunge-sneaker-review",
       title: "Satoshi Nakamoto x BeaSpunge 'Osmosis' — sneaker review",
-      niches: ["fashion", "sneakers"],
+      niches: ["product-review"],
       format: "talking-head",
       language: "english",
       source: {
@@ -200,7 +201,7 @@ const SITE = {
     {
       id: "luudan-denim-haul",
       title: "LU/UDAN oversized denim — styled reveal",
-      niches: ["fashion", "streetwear"],
+      niches: ["fashion-styling"],
       format: "talking-head",
       language: "english",
       source: {
@@ -228,54 +229,84 @@ const SITE = {
       note: "Solo-performed comedic skit with on-screen caption gags.",
     },
     {
-      id: "chrome-hearts-storytime",
-      title: "Chrome Hearts founder storytime",
-      niches: ["fashion"],
+      id: "nn07-brand-discovery",
+      title: "NN07 — brand discovery",
+      niches: ["brand-discovery"],
       format: "talking-head",
       language: "english",
       source: {
         type: "tiktok",
-        url: "https://www.tiktok.com/@emilsmusic1/video/7600572393152597279",
-        poster: "media/posters/chrome-hearts-storytime.jpg",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7676998483815025951",
+        poster: "media/posters/nn07-brand-discovery.jpg",
       },
       downloadUrl: "",
-      brand: "Chrome Hearts",
-      note: "Green-screen storytime format — fashion history trivia.",
+      brand: "NN07",
+      note: "Brand-discovery format spotlighting a menswear label.",
     },
     {
-      id: "mesdyven-brand-discovery",
-      title: "Mesdyven — brand discovery",
-      niches: ["fashion"],
+      id: "marc-nolan-brand-discovery",
+      title: "Marc Nolan — brand discovery",
+      niches: ["brand-discovery"],
       format: "talking-head",
       language: "english",
       source: {
         type: "tiktok",
-        url: "https://www.tiktok.com/@emilsmusic1/video/7595329420584307998",
-        poster: "media/posters/mesdyven-brand-discovery.jpg",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7693341299042159903",
+        poster: "media/posters/marc-nolan-brand-discovery.jpg",
       },
       downloadUrl: "",
-      brand: "Mesdyven",
-      note: "Green-screen brand-discovery/shoutout format.",
+      brand: "Marc Nolan",
+      note: "Green-screen brand-discovery video.",
     },
     {
-      id: "off-white-unboxing",
-      title: "Off-White \"Be Right Back\" sneaker unboxing",
-      niches: ["fashion", "sneakers"],
+      id: "loud-luxury-brand-discovery",
+      title: "Loud luxury done right — 3 brands",
+      niches: ["brand-discovery"],
+      format: "talking-head",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7688745772661099807",
+        poster: "media/posters/loud-luxury-brand-discovery.jpg",
+      },
+      downloadUrl: "",
+      brand: "",
+      note: "Three brands doing loud luxury without being obnoxious.",
+    },
+    {
+      id: "our-legacy-shorts-unboxing",
+      title: "Our Legacy shorts — unboxing",
+      niches: ["product-review"],
       format: "unboxing",
       language: "english",
       source: {
         type: "tiktok",
-        url: "https://www.tiktok.com/@emilsmusic1/video/7385684286306864415",
-        poster: "media/posters/off-white-unboxing.jpg",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7694346948681223454",
+        poster: "media/posters/our-legacy-shorts-unboxing.jpg",
       },
       downloadUrl: "",
-      brand: "Off-White",
-      note: "First-impressions sneaker unboxing.",
+      brand: "Our Legacy",
+      note: "Unboxing of shorts spotted on SSENSE.",
+    },
+    {
+      id: "house-of-errors-unboxing",
+      title: "House of Errors sweater — unboxing",
+      niches: ["product-review"],
+      format: "unboxing",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7683743020369431839",
+        poster: "media/posters/house-of-errors-unboxing.jpg",
+      },
+      downloadUrl: "",
+      brand: "House of Errors",
+      note: "Knit sweater unboxing from the season's drop.",
     },
     {
       id: "footwear-collection",
       title: "Designer footwear collection walkthrough",
-      niches: ["fashion", "sneakers"],
+      niches: ["fashion-styling"],
       format: "talking-head",
       language: "english",
       source: {
@@ -288,19 +319,79 @@ const SITE = {
       note: "Personal collection showcase, long-form talking-head.",
     },
     {
-      id: "lanvin-curb-unboxing",
-      title: "Lanvin Curb sneaker — unbox & style",
-      niches: ["fashion", "sneakers", "streetwear"],
-      format: "unboxing",
+      id: "malin-goetz-review",
+      title: "Malin+Goetz body wash & deodorant — worth the price?",
+      niches: ["product-review"],
+      format: "talking-head",
       language: "english",
       source: {
         type: "tiktok",
-        url: "https://www.tiktok.com/@emilsmusic1/video/7335953910374403370",
-        poster: "media/posters/lanvin-curb-unboxing.jpg",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7694686481713073439",
+        poster: "media/posters/malin-goetz-review.jpg",
       },
       downloadUrl: "",
-      brand: "Lanvin",
-      note: "Unbox-and-style format for a standout silhouette.",
+      brand: "Malin+Goetz",
+      note: "Honest product review: is it worth the price?",
+    },
+    {
+      id: "jacquemus-timberland-styling",
+      title: "How I styled the Jacquemus x Timberland boat shoes",
+      niches: ["fashion-styling"],
+      format: "talking-head",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7690011434926804255",
+        poster: "media/posters/jacquemus-timberland-styling.jpg",
+      },
+      downloadUrl: "",
+      brand: "Jacquemus x Timberland",
+      note: "What I got and how I styled it.",
+    },
+    {
+      id: "braindead-coach-jacket",
+      title: "Brain Dead Studios x Coach jacket — review",
+      niches: ["fashion-styling", "product-review"],
+      format: "talking-head",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7681333489370680607",
+        poster: "media/posters/braindead-coach-jacket.jpg",
+      },
+      downloadUrl: "",
+      brand: "Brain Dead Studios x Coach",
+      note: "Collab jacket picked up in the end-of-season sale, styled on camera.",
+    },
+    {
+      id: "jmm-sunglasses-visit",
+      title: "Visiting the Jacques Marie Mage store in West Hollywood",
+      niches: ["lifestyle"],
+      format: "vlog",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7685760895212948766",
+        poster: "media/posters/jmm-sunglasses-visit.jpg",
+      },
+      downloadUrl: "",
+      brand: "Jacques Marie Mage",
+      note: "On-location store visit.",
+    },
+    {
+      id: "la-guerite-cannes",
+      title: "Booking & visiting La Guérite in Cannes",
+      niches: ["lifestyle"],
+      format: "vlog",
+      language: "english",
+      source: {
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7652818790635277598",
+        poster: "media/posters/la-guerite-cannes.jpg",
+      },
+      downloadUrl: "",
+      brand: "La Guérite",
+      note: "Travel + lifestyle on the French Riviera.",
     },
   ],
 
@@ -309,11 +400,16 @@ const SITE = {
   // The filter bar builds its niche/format list automatically from the
   // `portfolio` array above — you never need to add a niche or format
   // here for it to show up. This section ONLY controls how a slug is
-  // capitalized in the UI (e.g. "saas" -> "SaaS" instead of "Saas").
+  // written in the UI (e.g. "fashion-styling" -> "Fashion & Styling").
   // Anything not listed here just gets Title Cased automatically.
   // --------------------------------------------------------------------
   filterLabels: {
-    niche: {},
+    niche: {
+      "lifestyle": "Lifestyle Content",
+      "brand-discovery": "Brand Discovery",
+      "product-review": "Product Review",
+      "fashion-styling": "Fashion & Styling",
+    },
     format: {},
   },
 
@@ -389,6 +485,30 @@ const SITE = {
   // sitting in media/brands/ — lanvin.png, off-white.png — ready to use.)
   // --------------------------------------------------------------------
   brands: [],
+
+  // --------------------------------------------------------------------
+  // BRANDS I WEAR & LOVE — a logo strip of brands and products you use
+  // personally. This is separate from "Brands I've Worked With" above, so
+  // it doesn't imply any paid partnership. Logos are shown as clean white
+  // marks on the dark background automatically. If `logo` is left as ""
+  // (or the file is missing) the brand name shows as a text badge instead.
+  // To hide this whole section, set `favoriteBrands: []`.
+  // --------------------------------------------------------------------
+  favoriteBrands: [
+    { name: "Ray-Ban", logo: "media/brands/ray-ban.png" },
+    { name: "PacSun", logo: "media/brands/pacsun.png" },
+    { name: "Levi's", logo: "media/brands/levis.png" },
+    { name: "Guess", logo: "media/brands/guess.png" },
+    { name: "Jacquemus", logo: "media/brands/jacquemus.png" },
+    { name: "Timberland", logo: "media/brands/timberland.png" },
+    { name: "Abercrombie & Fitch", logo: "media/brands/abercrombie.png" },
+    { name: "Prada", logo: "media/brands/prada.png" },
+    // No logo file yet for the next two — they show as text badges.
+    { name: "Entire Studios", logo: "" },
+    { name: "Uniqlo", logo: "media/brands/uniqlo.png" },
+    { name: "Acne Studios", logo: "media/brands/acne-studios.png" },
+    { name: "Fear of God", logo: "" },
+  ],
 
   // --------------------------------------------------------------------
   // HOW I WORK — short bullet facts, shown as-is.
