@@ -233,57 +233,32 @@
     return frame;
   }
 
-  const EMBED_SRC = {
-    tiktok: "https://www.tiktok.com/embed.js",
-    instagram: "https://www.instagram.com/embed.js",
-  };
-  const embedScriptState = { tiktok: "unloaded", instagram: "unloaded" };
-  const embedScriptWaiters = { tiktok: [], instagram: [] };
+  // Instagram still uses its embed script, loaded once on first tap and shared
+  // by every Instagram card. TikTok uses its iframe player (see below), which
+  // needs no script at all.
+  const INSTAGRAM_EMBED_SRC = "https://www.instagram.com/embed.js";
+  let instagramScriptState = "unloaded"; // unloaded | loading | loaded | error
+  let instagramScriptWaiters = [];
 
-  function rerunTikTokScript() {
-    // TikTok's widget.js scans the page for blockquotes on load, but doesn't
-    // expose a public re-scan method for blockquotes added afterwards. We
-    // re-append a script tag with the same src — the browser serves it from
-    // its HTTP cache (no extra network fetch) and the widget re-processes.
-    const script = document.createElement("script");
-    script.src = EMBED_SRC.tiktok;
-    script.async = true;
-    script.onload = () => script.remove();
-    script.onerror = () => script.remove();
-    document.body.appendChild(script);
-  }
-
-  function ensurePlatformScript(platform) {
+  function ensureInstagramScript() {
     return new Promise((resolve, reject) => {
-      const state = embedScriptState[platform];
-      if (state === "loaded") {
-        if (platform === "tiktok") rerunTikTokScript();
-        resolve();
-        return;
-      }
-      if (state === "error") {
-        reject();
-        return;
-      }
-      if (state === "loading") {
-        embedScriptWaiters[platform].push({ resolve, reject });
-        return;
-      }
-      embedScriptState[platform] = "loading";
+      if (instagramScriptState === "loaded") return resolve();
+      if (instagramScriptState === "error") return reject();
+      instagramScriptWaiters.push({ resolve, reject });
+      if (instagramScriptState === "loading") return;
+      instagramScriptState = "loading";
       const script = document.createElement("script");
-      script.src = EMBED_SRC[platform];
+      script.src = INSTAGRAM_EMBED_SRC;
       script.async = true;
       script.onload = () => {
-        embedScriptState[platform] = "loaded";
-        resolve();
-        embedScriptWaiters[platform].forEach((w) => w.resolve());
-        embedScriptWaiters[platform] = [];
+        instagramScriptState = "loaded";
+        instagramScriptWaiters.forEach((w) => w.resolve());
+        instagramScriptWaiters = [];
       };
       script.onerror = () => {
-        embedScriptState[platform] = "error";
-        reject();
-        embedScriptWaiters[platform].forEach((w) => w.reject());
-        embedScriptWaiters[platform] = [];
+        instagramScriptState = "error";
+        instagramScriptWaiters.forEach((w) => w.reject());
+        instagramScriptWaiters = [];
       };
       document.body.appendChild(script);
     });
@@ -309,8 +284,54 @@
     frame.appendChild(fb);
   }
 
+  // TikTok: TikTok's official iframe player. Starts playing (muted) as soon as
+  // it loads, with controls to unmute. If it hasn't loaded within 3 seconds we
+  // fall back to a plain link-out button so a broken embed never shows an empty box.
+  function loadTikTokPlayer(frame, item) {
+    const idMatch = String(item.source.url).match(/\/(?:video|photo)\/(\d+)/);
+    if (!idMatch) {
+      showSocialFallback(frame, item);
+      return;
+    }
+    // Only one thing plays at a time: pause any local video.
+    allVideoEls.forEach((v) => {
+      if (!v.paused) v.pause();
+    });
+    const badge = frame.querySelector(".media-badge");
+    frame.innerHTML = "";
+    if (badge) frame.appendChild(badge);
+
+    const iframe = document.createElement("iframe");
+    iframe.className = "media-player-frame";
+    iframe.title = item.title + " (TikTok video)";
+    iframe.allow = "autoplay; fullscreen; picture-in-picture; encrypted-media";
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.src =
+      "https://www.tiktok.com/player/v1/" +
+      idMatch[1] +
+      "?autoplay=1&muted=1&loop=1&controls=1&volume_control=1&play_button=1&progress_bar=1" +
+      "&fullscreen_button=0&timestamp=0&music_info=0&description=0&rel=0&closed_caption=0&native_context_menu=0";
+
+    let settled = false;
+    const fallbackTimer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      showSocialFallback(frame, item);
+    }, 3000);
+    iframe.addEventListener("load", () => {
+      settled = true;
+      clearTimeout(fallbackTimer);
+    });
+    frame.appendChild(iframe);
+  }
+
   function loadSocialEmbed(frame, item) {
-    const platform = item.source.type;
+    if (item.source.type === "tiktok") {
+      loadTikTokPlayer(frame, item);
+      return;
+    }
+
+    // Instagram: official blockquote embed + shared script.
     const badge = frame.querySelector(".media-badge");
     frame.innerHTML = "";
     if (badge) frame.appendChild(badge);
@@ -321,32 +342,14 @@
     container.style.overflow = "hidden";
     frame.appendChild(container);
 
-    let blockquote;
-    if (platform === "tiktok") {
-      blockquote = document.createElement("blockquote");
-      blockquote.className = "tiktok-embed";
-      blockquote.setAttribute("cite", item.source.url);
-      // TikTok's embed script reads the video ID from this attribute; without
-      // it the embed loads blank (embed/v2/null).
-      const idMatch = String(item.source.url).match(/\/(?:video|photo)\/(\d+)/);
-      if (idMatch) blockquote.setAttribute("data-video-id", idMatch[1]);
-      blockquote.style.maxWidth = "100%";
-      blockquote.style.minWidth = "100%";
-      const a = document.createElement("a");
-      a.href = item.source.url;
-      a.textContent = item.title;
-      blockquote.appendChild(a);
-    } else {
-      blockquote = document.createElement("blockquote");
-      blockquote.className = "instagram-media";
-      blockquote.setAttribute("data-instgrm-permalink", item.source.url);
-      blockquote.setAttribute("data-instgrm-version", "14");
-      blockquote.style.width = "100%";
-    }
+    const blockquote = document.createElement("blockquote");
+    blockquote.className = "instagram-media";
+    blockquote.setAttribute("data-instgrm-permalink", item.source.url);
+    blockquote.setAttribute("data-instgrm-version", "14");
+    blockquote.style.width = "100%";
     container.appendChild(blockquote);
 
     let settled = false;
-
     const mo = new MutationObserver(() => {
       if (settled) return;
       if (container.querySelector("iframe")) {
@@ -364,11 +367,9 @@
       showSocialFallback(frame, item);
     }, 3000);
 
-    ensurePlatformScript(platform)
+    ensureInstagramScript()
       .then(() => {
-        if (platform === "instagram" && window.instgrm && window.instgrm.Embeds) {
-          window.instgrm.Embeds.process();
-        }
+        if (window.instgrm && window.instgrm.Embeds) window.instgrm.Embeds.process();
       })
       .catch(() => {
         if (settled) return;
@@ -753,13 +754,22 @@
   // "View on TikTok ↗" / "View on Instagram ↗" link, so every social post is
   // one tap away from its original page (the embed itself only loads on tap).
   function createSocialLink(source) {
-    if (!source || (source.type !== "tiktok" && source.type !== "instagram") || !source.url) return null;
+    if (!source || !source.url) return null;
+    let host = "";
+    try {
+      host = new URL(source.url).hostname;
+    } catch (e) {
+      return null;
+    }
+    let where = "original post";
+    if (/(^|\.)tiktok\.com$/.test(host)) where = "TikTok";
+    else if (/(^|\.)instagram\.com$/.test(host)) where = "Instagram";
     const a = document.createElement("a");
     a.href = source.url;
     a.target = "_blank";
     a.rel = "noopener noreferrer";
     a.className = "btn btn--secondary btn--small";
-    a.textContent = "View on " + (source.type === "tiktok" ? "TikTok" : "Instagram") + " ↗";
+    a.textContent = "View on " + where + " ↗";
     return a;
   }
 

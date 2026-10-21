@@ -163,26 +163,26 @@ const SITE = {
   //                { type: "tiktok", url: "https://www.tiktok.com/@you/video/123", poster: "media/posters/x.jpg" }
   //                { type: "instagram", url: "https://www.instagram.com/reel/xyz/", poster: "media/posters/x.jpg" }
   //              OR a still image (no video):
-  //                { type: "image", src: "media/posters/x.jpg" }
+  //                { type: "image", src: "media/posters/x.jpg", url: "(optional link-out)" }
   //   downloadUrl  optional — adds a "Download" button (Drive/Dropbox link)
   //   brand        brand name shown on the card
   //   note         one short line: what you did (scripted? filmed? turnaround?)
   // --------------------------------------------------------------------
   portfolio: [
     {
-      id: "sample-sale-haul",
-      title: "260 Sample Sale Haul",
-      niches: ["fashion-styling"],
+      id: "our-legacy-derbys-unboxing",
+      title: "Our Legacy Parade Derbys — unboxing",
+      niches: ["product-review"],
       format: "unboxing",
       language: "english",
       source: {
-        type: "local",
-        src: "media/videos/sample-sale-haul.mp4",
-        poster: "media/posters/sample-sale-haul.jpg",
+        type: "tiktok",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7698852407974972703",
+        poster: "media/posters/our-legacy-derbys-unboxing.jpg",
       },
       downloadUrl: "",
-      brand: "",
-      note: "Sample sale haul, shot and edited solo.",
+      brand: "Our Legacy",
+      note: "Unboxing the Derbys from the SSENSE sale.",
     },
     {
       id: "beaspunge-sneaker-review",
@@ -217,9 +217,9 @@ const SITE = {
     },
     {
       id: "her-skit",
-      title: "\"HER\" — comedic skit",
-      niches: ["comedy"],
-      format: "skit",
+      title: "Styling for casual date",
+      niches: ["fashion-styling"],
+      format: "styling",
       language: "english",
       source: {
         type: "local",
@@ -228,7 +228,7 @@ const SITE = {
       },
       downloadUrl: "",
       brand: "",
-      note: "Solo-performed comedic skit with on-screen caption gags.",
+      note: "Casual date-night outfit, shot and edited solo.",
     },
     {
       id: "nn07-brand-discovery",
@@ -281,10 +281,11 @@ const SITE = {
       niches: ["fashion-styling"],
       format: "photo",
       language: "english",
-      // Still image post (no video). Swap `src` for a different photo any time.
+      // Still image post (no video). `url` adds the "View on TikTok" button.
       source: {
         type: "image",
-        src: "media/posters/denim-haul.jpg",
+        src: "media/posters/luudan-still.jpg",
+        url: "https://www.tiktok.com/@emilsmusic1/video/7668501136860630303",
       },
       downloadUrl: "",
       brand: "LU/UDAN",
